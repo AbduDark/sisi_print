@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo "╔════════════════════════════════════════════════════════════════════╗"
+echo "║              Sisi Print - Windows Forms Application               ║"
+echo "╠════════════════════════════════════════════════════════════════════╣"
+echo "║                                                                    ║"
+echo "║  ⚠️  هذا التطبيق هو Windows Forms Desktop Application             ║"
+echo "║                                                                    ║"
+echo "║  ❌ لا يمكن تشغيله على Replit (Linux)                            ║"
+echo "║  ✅ يتطلب نظام Windows للتشغيل                                   ║"
+echo "║                                                                    ║"
+echo "╠════════════════════════════════════════════════════════════════════╣"
+echo "║  كيفية التشغيل على Windows:                                       ║"
+echo "║                                                                    ║"
+echo "║  1. قم بتنزيل المشروع على جهاز Windows                           ║"
+echo "║  2. افتح Command Prompt أو PowerShell                             ║"
+echo "║  3. انتقل إلى مجلد المشروع                                        ║"
+echo "║  4. نفذ الأمر:                                                     ║"
+echo "║     dotnet run --project sisi_print/sisi_print.csproj              ║"
+echo "║                                                                    ║"
+echo "║  أو:                                                               ║"
+echo "║  - افتح sisi_print.sln في Visual Studio                          ║"
+echo "║  - اضغط F5 للتشغيل                                               ║"
+echo "║                                                                    ║"
+echo "╠════════════════════════════════════════════════════════════════════╣"
+echo "║  حالة البناء (Build Status):                                      ║"
+echo "╚════════════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Try to build the project to verify it compiles
+echo "🔨 جاري بناء المشروع (Building)..."
+echo ""
+
+if dotnet build sisi_print.sln -c Release --nologo -v minimal; then
+    echo ""
+    echo "✅ البناء نجح! (Build Successful)"
+    echo ""
+    echo "📦 الملف التنفيذي موجود في:"
+    echo "   bin/Release/net8.0-windows/sisi_print.dll"
+    echo ""
+    echo "⚠️  تذكير: لا يمكن تشغيل الملف التنفيذي على Linux"
+    echo "   يجب نقله إلى جهاز Windows للتشغيل"
+else
+    echo ""
+    echo "❌ فشل البناء - راجع الأخطاء أعلاه"
+fi
+
+echo ""
+echo "════════════════════════════════════════════════════════════════════"
+echo "لمزيد من المعلومات، راجع ملف replit.md"
+echo "════════════════════════════════════════════════════════════════════"
