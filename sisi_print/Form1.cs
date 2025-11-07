@@ -196,7 +196,12 @@ namespace sisi_print
                 string tsplCommands = BuildTSPLCommands(number, width, height, gap, fontMul);
 
                 // Send to printer
-                RawPrinterHelper.SendStringToPrinter(printerName, tsplCommands);
+                bool success = RawPrinterHelper.SendStringToPrinter(printerName, tsplCommands);
+                
+                if (!success)
+                {
+                    ShowStatus($"فشل إرسال الرقم {number} إلى الطابعة. تأكد من تشغيل الطابعة واتصالها.", true);
+                }
             }
             catch (Exception ex)
             {
