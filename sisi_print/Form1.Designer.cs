@@ -32,6 +32,12 @@ namespace sisi_print
             this.lblFontSize = new System.Windows.Forms.Label();
             this.cmbFontSize = new System.Windows.Forms.ComboBox();
             this.chkPrintBarcode = new System.Windows.Forms.CheckBox();
+            this.lblTextOffset = new System.Windows.Forms.Label();
+            this.txtTextOffset = new System.Windows.Forms.TextBox();
+            this.lblBarcodeOffset = new System.Windows.Forms.Label();
+            this.txtBarcodeOffset = new System.Windows.Forms.TextBox();
+            this.lblDensity = new System.Windows.Forms.Label();
+            this.txtDensity = new System.Windows.Forms.TextBox();
             this.btnTestPrint = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -209,14 +215,80 @@ namespace sisi_print
             this.chkPrintBarcode.Text = "طباعة باركود Code128 تحت الرقم";
             this.chkPrintBarcode.UseVisualStyleBackColor = true;
             // 
+            // lblTextOffset
+            // 
+            this.lblTextOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTextOffset.AutoSize = true;
+            this.lblTextOffset.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblTextOffset.Location = new System.Drawing.Point(460, 343);
+            this.lblTextOffset.Name = "lblTextOffset";
+            this.lblTextOffset.Size = new System.Drawing.Size(85, 19);
+            this.lblTextOffset.TabIndex = 15;
+            this.lblTextOffset.Text = "موضع النص (Y):";
+            // 
+            // txtTextOffset
+            // 
+            this.txtTextOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTextOffset.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTextOffset.Location = new System.Drawing.Point(360, 340);
+            this.txtTextOffset.Name = "txtTextOffset";
+            this.txtTextOffset.Size = new System.Drawing.Size(80, 25);
+            this.txtTextOffset.TabIndex = 16;
+            this.txtTextOffset.Text = "0";
+            this.txtTextOffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblBarcodeOffset
+            // 
+            this.lblBarcodeOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBarcodeOffset.AutoSize = true;
+            this.lblBarcodeOffset.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblBarcodeOffset.Location = new System.Drawing.Point(220, 343);
+            this.lblBarcodeOffset.Name = "lblBarcodeOffset";
+            this.lblBarcodeOffset.Size = new System.Drawing.Size(110, 19);
+            this.lblBarcodeOffset.TabIndex = 17;
+            this.lblBarcodeOffset.Text = "موضع الباركود (Y):";
+            // 
+            // txtBarcodeOffset
+            // 
+            this.txtBarcodeOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBarcodeOffset.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtBarcodeOffset.Location = new System.Drawing.Point(120, 340);
+            this.txtBarcodeOffset.Name = "txtBarcodeOffset";
+            this.txtBarcodeOffset.Size = new System.Drawing.Size(80, 25);
+            this.txtBarcodeOffset.TabIndex = 18;
+            this.txtBarcodeOffset.Text = "0";
+            this.txtBarcodeOffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblDensity
+            // 
+            this.lblDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDensity.AutoSize = true;
+            this.lblDensity.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblDensity.Location = new System.Drawing.Point(460, 383);
+            this.lblDensity.Name = "lblDensity";
+            this.lblDensity.Size = new System.Drawing.Size(98, 19);
+            this.lblDensity.TabIndex = 19;
+            this.lblDensity.Text = "حرارة الطابعة (0-15):";
+            // 
+            // txtDensity
+            // 
+            this.txtDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDensity.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtDensity.Location = new System.Drawing.Point(360, 380);
+            this.txtDensity.Name = "txtDensity";
+            this.txtDensity.Size = new System.Drawing.Size(80, 25);
+            this.txtDensity.TabIndex = 20;
+            this.txtDensity.Text = "10";
+            this.txtDensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // btnTestPrint
             // 
             this.btnTestPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTestPrint.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.btnTestPrint.Location = new System.Drawing.Point(310, 350);
+            this.btnTestPrint.Location = new System.Drawing.Point(310, 425);
             this.btnTestPrint.Name = "btnTestPrint";
             this.btnTestPrint.Size = new System.Drawing.Size(130, 40);
-            this.btnTestPrint.TabIndex = 15;
+            this.btnTestPrint.TabIndex = 21;
             this.btnTestPrint.Text = "طباعة اختبار";
             this.btnTestPrint.UseVisualStyleBackColor = true;
             this.btnTestPrint.Click += new System.EventHandler(this.btnTestPrint_Click);
@@ -225,10 +297,10 @@ namespace sisi_print
             // 
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.btnPrint.Location = new System.Drawing.Point(160, 350);
+            this.btnPrint.Location = new System.Drawing.Point(160, 425);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(130, 40);
-            this.btnPrint.TabIndex = 16;
+            this.btnPrint.TabIndex = 22;
             this.btnPrint.Text = "طباعة";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
@@ -238,11 +310,11 @@ namespace sisi_print
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblStatus.ForeColor = System.Drawing.Color.Green;
-            this.lblStatus.Location = new System.Drawing.Point(140, 410);
+            this.lblStatus.Location = new System.Drawing.Point(120, 480);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblStatus.Size = new System.Drawing.Size(373, 40);
-            this.lblStatus.TabIndex = 17;
+            this.lblStatus.Size = new System.Drawing.Size(423, 40);
+            this.lblStatus.TabIndex = 23;
             this.lblStatus.Text = "جاهز";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -250,10 +322,16 @@ namespace sisi_print
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 461);
+            this.ClientSize = new System.Drawing.Size(584, 540);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnTestPrint);
+            this.Controls.Add(this.txtDensity);
+            this.Controls.Add(this.lblDensity);
+            this.Controls.Add(this.txtBarcodeOffset);
+            this.Controls.Add(this.lblBarcodeOffset);
+            this.Controls.Add(this.txtTextOffset);
+            this.Controls.Add(this.lblTextOffset);
             this.Controls.Add(this.chkPrintBarcode);
             this.Controls.Add(this.cmbFontSize);
             this.Controls.Add(this.lblFontSize);
@@ -298,6 +376,12 @@ namespace sisi_print
         private System.Windows.Forms.Label lblFontSize;
         private System.Windows.Forms.ComboBox cmbFontSize;
         private System.Windows.Forms.CheckBox chkPrintBarcode;
+        private System.Windows.Forms.Label lblTextOffset;
+        private System.Windows.Forms.TextBox txtTextOffset;
+        private System.Windows.Forms.Label lblBarcodeOffset;
+        private System.Windows.Forms.TextBox txtBarcodeOffset;
+        private System.Windows.Forms.Label lblDensity;
+        private System.Windows.Forms.TextBox txtDensity;
         private System.Windows.Forms.Button btnTestPrint;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Label lblStatus;

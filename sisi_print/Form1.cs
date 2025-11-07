@@ -66,6 +66,9 @@ namespace sisi_print
             txtGap.Text = settings.Gap.ToString();
             cmbFontSize.SelectedIndex = settings.FontSizeIndex;
             chkPrintBarcode.Checked = settings.PrintBarcode;
+            txtTextOffset.Text = settings.TextOffsetY.ToString();
+            txtBarcodeOffset.Text = settings.BarcodeOffsetY.ToString();
+            txtDensity.Text = settings.Density.ToString();
 
             if (!string.IsNullOrEmpty(settings.PrinterName))
             {
@@ -89,6 +92,9 @@ namespace sisi_print
                 settings.FontSizeIndex = cmbFontSize.SelectedIndex;
                 settings.PrintBarcode = chkPrintBarcode.Checked;
                 settings.PrinterName = cmbPrinters.SelectedItem?.ToString() ?? "";
+                settings.TextOffsetY = int.TryParse(txtTextOffset.Text, out int textOffset) ? textOffset : 0;
+                settings.BarcodeOffsetY = int.TryParse(txtBarcodeOffset.Text, out int barcodeOffset) ? barcodeOffset : 0;
+                settings.Density = int.TryParse(txtDensity.Text, out int density) ? Math.Clamp(density, 0, 15) : 10;
 
                 string json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(settingsFile, json);
@@ -193,12 +199,15 @@ namespace sisi_print
                 int width = int.TryParse(txtWidth.Text, out int w) ? w : 40;
                 int height = int.TryParse(txtHeight.Text, out int h) ? h : 30;
                 int gap = int.TryParse(txtGap.Text, out int g) ? g : 2;
+                int density = int.TryParse(txtDensity.Text, out int d) ? Math.Clamp(d, 0, 15) : 10;
+                int textOffset = int.TryParse(txtTextOffset.Text, out int tOffset) ? tOffset : 0;
+                int barcodeOffset = int.TryParse(txtBarcodeOffset.Text, out int bOffset) ? bOffset : 0;
 
                 // Get font size multiplier
                 int fontMul = GetFontMultiplier();
 
                 // Build TSPL commands for two numbers
-                string tsplCommands = BuildTSPLCommandsForTwo(number1, number2, width, height, gap, fontMul);
+                string tsplCommands = BuildTSPLCommandsForTwo(number1, number2, width, height, gap, fontMul, density, textOffset, barcodeOffset);
 
                 // Send to printer
                 bool success = RawPrinterHelper.SendStringToPrinter(printerName, tsplCommands);
@@ -225,7 +234,7 @@ namespace sisi_print
             };
         }
 
-        private string BuildTSPLCommandsForTwo(int number1, int number2, int width, int height, int gap, int fontMul)
+        private string BuildTSPLCommandsForTwo(int number1, int number2, int width, int height, int gap, int fontMul, int density, int textOffset, int barcodeOffset)
         {
             StringBuilder sb = new();
 
@@ -234,7 +243,7 @@ namespace sisi_print
             sb.AppendLine($"GAP {gap} mm, 0 mm");
             sb.AppendLine("DIRECTION 0, 0");
             sb.AppendLine("SPEED 4");
-            sb.AppendLine("DENSITY 10");
+            sb.AppendLine($"DENSITY {density}");
             sb.AppendLine("CODEPAGE 1252");
             sb.AppendLine("CLS");
 
@@ -244,12 +253,12 @@ namespace sisi_print
             int heightInDots = height * dotsPerMm;
 
             // Position for first number (upper half)
-            int upperSectionY = heightInDots / 4;
-            PrintNumberSection(sb, number1, centerX, upperSectionY, fontMul);
+            int upperSectionY = (heightInDots / 4) + textOffset;
+            PrintNumberSection(sb, number1, centerX, upperSectionY, fontMul, barcodeOffset);
 
             // Position for second number (lower half)
-            int lowerSectionY = (heightInDots * 3) / 4;
-            PrintNumberSection(sb, number2, centerX, lowerSectionY, fontMul);
+            int lowerSectionY = ((heightInDots * 3) / 4) + textOffset;
+            PrintNumberSection(sb, number2, centerX, lowerSectionY, fontMul, barcodeOffset);
 
             // Print the label
             sb.AppendLine("PRINT 1");
@@ -257,7 +266,7 @@ namespace sisi_print
             return sb.ToString();
         }
 
-        private void PrintNumberSection(StringBuilder sb, int number, int centerX, int positionY, int fontMul)
+        private void PrintNumberSection(StringBuilder sb, int number, int centerX, int positionY, int fontMul, int barcodeOffset)
         {
             // Print number text (centered)
             string numberText = number.ToString();
@@ -269,7 +278,7 @@ namespace sisi_print
             // Print barcode if enabled (below the text)
             if (chkPrintBarcode.Checked)
             {
-                int barcodeY = positionY + (fontMul * 25) + 5;
+                int barcodeY = positionY + (fontMul * 25) + 5 + barcodeOffset;
                 int barcodeHeight = 35;
                 int barcodeWidth = numberText.Length * 15;
                 int barcodeX = centerX - (barcodeWidth / 2);
@@ -295,5 +304,8 @@ namespace sisi_print
         public int FontSizeIndex { get; set; } = 1;
         public bool PrintBarcode { get; set; } = true;
         public string PrinterName { get; set; } = "";
+        public int TextOffsetY { get; set; } = 0;
+        public int BarcodeOffsetY { get; set; } = 0;
+        public int Density { get; set; } = 10;
     }
 }
