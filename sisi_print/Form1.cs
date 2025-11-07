@@ -102,7 +102,7 @@ namespace sisi_print
         private void btnTestPrint_Click(object sender, EventArgs e)
         {
             SaveSettings();
-            PrintNumber(999);
+            PrintTwoNumbers(999, 1000);
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -159,14 +159,19 @@ namespace sisi_print
         {
             try
             {
-                for (int i = from; i <= to; i++)
+                int sheetsCount = 0;
+                for (int i = from; i <= to; i += 2)
                 {
-                    PrintNumber(i);
-                    ShowStatus($"جاري الطباعة: {i} من {to}", false);
+                    int number1 = i;
+                    int number2 = (i + 1 <= to) ? i + 1 : i;
+                    
+                    PrintTwoNumbers(number1, number2);
+                    sheetsCount++;
+                    ShowStatus($"جاري الطباعة: ورقة {sheetsCount} (أرقام {number1}-{number2})", false);
                     Application.DoEvents();
                 }
 
-                ShowStatus($"تمت طباعة {to - from + 1} ورقة بنجاح", false);
+                ShowStatus($"تمت طباعة {sheetsCount} ورقة بنجاح (أرقام {from}-{to})", false);
             }
             catch (Exception ex)
             {
@@ -174,7 +179,7 @@ namespace sisi_print
             }
         }
 
-        private void PrintNumber(int number)
+        private void PrintTwoNumbers(int number1, int number2)
         {
             try
             {
@@ -192,15 +197,15 @@ namespace sisi_print
                 // Get font size multiplier
                 int fontMul = GetFontMultiplier();
 
-                // Build TSPL commands
-                string tsplCommands = BuildTSPLCommands(number, width, height, gap, fontMul);
+                // Build TSPL commands for two numbers
+                string tsplCommands = BuildTSPLCommandsForTwo(number1, number2, width, height, gap, fontMul);
 
                 // Send to printer
                 bool success = RawPrinterHelper.SendStringToPrinter(printerName, tsplCommands);
                 
                 if (!success)
                 {
-                    ShowStatus($"فشل إرسال الرقم {number} إلى الطابعة. تأكد من تشغيل الطابعة واتصالها.", true);
+                    ShowStatus($"فشل إرسال الأرقام {number1}, {number2} إلى الطابعة. تأكد من تشغيل الطابعة واتصالها.", true);
                 }
             }
             catch (Exception ex)
@@ -220,7 +225,7 @@ namespace sisi_print
             };
         }
 
-        private string BuildTSPLCommands(int number, int width, int height, int gap, int fontMul)
+        private string BuildTSPLCommandsForTwo(int number1, int number2, int width, int height, int gap, int fontMul)
         {
             StringBuilder sb = new();
 
@@ -233,29 +238,44 @@ namespace sisi_print
             sb.AppendLine("CODEPAGE 1252");
             sb.AppendLine("CLS");
 
-            // Calculate positions (centered)
-            int centerX = (width * 8) / 2; // Convert mm to dots (8 dots/mm at 203 DPI)
-            int textY = 40;
+            // Convert mm to dots (8 dots/mm at 203 DPI)
+            int dotsPerMm = 8;
+            int centerX = (width * dotsPerMm) / 2;
+            int heightInDots = height * dotsPerMm;
 
-            // Print number text (centered)
-            string numberText = number.ToString();
-            int textOffset = (numberText.Length * fontMul * 12) / 2; // Approximate centering
-            sb.AppendLine($"TEXT {centerX - textOffset}, {textY}, \"4\", 0, {fontMul}, {fontMul}, \"{numberText}\"");
+            // Position for first number (upper half)
+            int upperSectionY = heightInDots / 4;
+            PrintNumberSection(sb, number1, centerX, upperSectionY, fontMul);
 
-            // Print barcode if enabled
-            if (chkPrintBarcode.Checked)
-            {
-                int barcodeY = textY + (fontMul * 30) + 10;
-                int barcodeHeight = 50;
-                int barcodeX = centerX - 60; // Center barcode
-
-                sb.AppendLine($"BARCODE {barcodeX}, {barcodeY}, \"128\", {barcodeHeight}, 1, 0, 2, 2, \"{numberText}\"");
-            }
+            // Position for second number (lower half)
+            int lowerSectionY = (heightInDots * 3) / 4;
+            PrintNumberSection(sb, number2, centerX, lowerSectionY, fontMul);
 
             // Print the label
             sb.AppendLine("PRINT 1");
 
             return sb.ToString();
+        }
+
+        private void PrintNumberSection(StringBuilder sb, int number, int centerX, int positionY, int fontMul)
+        {
+            // Print number text (centered)
+            string numberText = number.ToString();
+            int textWidth = numberText.Length * fontMul * 12;
+            int textX = centerX - (textWidth / 2);
+            
+            sb.AppendLine($"TEXT {textX}, {positionY}, \"4\", 0, {fontMul}, {fontMul}, \"{numberText}\"");
+
+            // Print barcode if enabled (below the text)
+            if (chkPrintBarcode.Checked)
+            {
+                int barcodeY = positionY + (fontMul * 25) + 5;
+                int barcodeHeight = 35;
+                int barcodeWidth = numberText.Length * 15;
+                int barcodeX = centerX - (barcodeWidth / 2);
+
+                sb.AppendLine($"BARCODE {barcodeX}, {barcodeY}, \"128\", {barcodeHeight}, 1, 0, 2, 2, \"{numberText}\"");
+            }
         }
 
         private void ShowStatus(string message, bool isError)
