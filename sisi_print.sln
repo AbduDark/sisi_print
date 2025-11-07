@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36511.14 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sisi_print", "sisi_print\sisi_print.csproj", "{22A6E6A8-2164-4119-BB43-158B493852FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22A6E6A8-2164-4119-BB43-158B493852FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22A6E6A8-2164-4119-BB43-158B493852FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22A6E6A8-2164-4119-BB43-158B493852FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22A6E6A8-2164-4119-BB43-158B493852FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E3CB421-E53C-44F9-8B2C-27B5A58CA3D8}
+	EndGlobalSection
+EndGlobal
